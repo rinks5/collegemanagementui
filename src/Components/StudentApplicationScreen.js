@@ -31,7 +31,7 @@ export const StudentApplicationScreen = () => {
                 perTen: perten,
                 perTwelve: pertwelve,
                 jeeMarks: jeemarks,
-                appStatus:"Submitted",
+                appStatus:"SUBMITTED",
                 appComment:"",
                 userName: user.firstName +" " + user.lastName
              })

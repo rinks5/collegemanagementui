@@ -129,7 +129,7 @@ export const UserScreen = () => {
   .then(res => {
     setRows(res.data);
     userData = res.data;
-    if(res.data[0].appStatus === "SUBMITED"){
+    if(res.data[0].appStatus === "SUBMITTED"){
       setEdit("true")
     }
   })
