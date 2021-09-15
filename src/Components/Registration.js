@@ -9,7 +9,7 @@ export const Registration = () => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
 
-    const baseURL = "/addUser";
+    const baseURL = "https://collegemanagement-backend.herokuapp.com/addUser";
 
 
     const submit = async (e) => {

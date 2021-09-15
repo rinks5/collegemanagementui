@@ -16,7 +16,7 @@ export const Login = (props) => {
             alert("Info required")
         }
         else {
-            axios.get('/getUser?email=' + email + '&password=' + password)
+            axios.get('https://collegemanagement-backend.herokuapp.com/getUser?email=' + email + '&password=' + password)
                 .then(res => {
                     const user = res.data;
 
@@ -26,7 +26,7 @@ export const Login = (props) => {
                             history.push("/admin");
                         }
                         else {
-                            axios.get('/getStudentDetail?id=' + user.id)
+                            axios.get('https://collegemanagement-backend.herokuapp.com/getStudentDetail?id=' + user.id)
                                 .then(res => {
                                     if (res.data[0] !== null) {
                                         history.push("/studentStatus");

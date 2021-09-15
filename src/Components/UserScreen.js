@@ -69,7 +69,7 @@ export const UserScreen = () => {
     setEditRowsModel(model);
   }, []);
 
-  const baseURL = "/updateInfo"
+  const baseURL = "https://collegemanagement-backend.herokuapp.com/updateInfo"
 
   const submit = (e) => {
     e.preventDefault();
@@ -125,7 +125,7 @@ export const UserScreen = () => {
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"))
 
-    axios.get('/getStudentDetail?id=' + user.id)
+    axios.get('https://collegemanagement-backend.herokuapp.com/getStudentDetail?id=' + user.id)
   .then(res => {
     setRows(res.data);
     userData = res.data;

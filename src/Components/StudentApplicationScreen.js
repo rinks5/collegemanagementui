@@ -14,7 +14,7 @@ export const StudentApplicationScreen = () => {
 
     const history = useHistory();
 
-    const baseURL = "/saveInfo";
+    const baseURL = "https://collegemanagement-backend.herokuapp.com/saveInfo";
 
     let user = JSON.parse(localStorage.getItem("user"))
 

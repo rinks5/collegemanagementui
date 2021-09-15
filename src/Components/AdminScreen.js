@@ -52,7 +52,7 @@ const columns = [
 
 ];
 
-const baseURL = "/getAllDetails";
+const baseURL = "https://collegemanagement-backend.herokuapp.com/getAllDetails";
 
 
 
@@ -86,7 +86,7 @@ export const AdminScreen = () => {
 
 
   axios
-  .put("/updateInfo", student)
+  .put("https://collegemanagement-backend.herokuapp.com/updateInfo", student)
   .then((response) => {
   });
     
