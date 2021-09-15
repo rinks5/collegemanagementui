@@ -1,3 +1,16 @@
+This is the frontend part of the assignment
+
+Steps to execute :
+1) Take the pull of the github Repo.
+2) Open in VS code or any editor (Make sure you have node JS installed)
+3) By using the npm command start the application
+
+# NOTES
+1) To run in local you need to add one proxy in package.json file "proxy": your localhost ip
+2) You need to make changes in all the components Base Url for eg : https://collegemanagement-backend.herokuapp.com/getUser in this you need to remove https://collegemanagement-backend.herokuapp.com this url and you need to keep /getUser while calling the rest endpoint.
+3) While updating the changes in the UI eg updating any information in the grid make sure your cursor is there in that row after making the changes and click on save Button.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
