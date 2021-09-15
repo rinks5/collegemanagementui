@@ -8,26 +8,48 @@ export const Registration = () => {
     const [password, setPassword] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
-    const [post, setPost] = useState(null);
 
-    const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
+    const baseURL = "/addUser";
 
-    const submit = (e) => {
+
+    const submit = async (e) => {
         e.preventDefault();
         if (!email || !password || !firstName || !lastName) {
             alert("Info required")
         }
         else {
-            axios
+            try{
+           const response =  await axios
             .post(baseURL, {
-              title: "Hello World!",
-              body: "This is a new post."
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password,
+              type: "Student"
             })
-            .then((response) => {
-              setPost(response.data);
-            });
+            if(!response){
+                alert("Registration Not Successful")
+                setEmail("")
+                setFirstName("")
+                setLastName("")
+                setPassword("")
+            }
+            else{
+                alert("Registration Successful")
+                setEmail("")
+                setFirstName("")
+                setLastName("")
+                setPassword("")
+            }
+            }
+            catch(e){
+                console.log(e);
+            }
         }
+
     }
+
+   
     
     return (
         <div className="card col-12 col-lg-4 login-card mt-2 hv-center">

@@ -1,63 +1,163 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import axios from "axios";
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'user', headerName: 'Student ID', width: 90 },
   {
-    field: 'firstName',
-    headerName: 'First name',
+    field: 'userName',
+    headerName: 'Student name',
+    width: 150,
+    editable: false,
+  },
+  {
+    field: 'course',
+    headerName: 'Course',
     width: 150,
     editable: true,
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
+    field: 'perTen',
+    headerName: '10 Percentage',
     type: 'number',
-    width: 110,
+    width: 250,
     editable: true,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.getValue(params.id, 'firstName') || ''} ${
-        params.getValue(params.id, 'lastName') || ''
-      }`,
+    field: 'perTwelve',
+    headerName: '12 Percentage',
+    type: 'number',
+    width: 250,
+    editable: true,
+  }, {
+    field: 'jeeMarks',
+    headerName: 'JEE Marks',
+    type: 'number',
+    width: 250,
+    editable: true,
   },
+  {
+    field: 'appStatus',
+    headerName: 'Status',
+    width: 150,
+    editable: false
+  },
+  {
+    field: 'appComment',
+    headerName: 'Comment',
+    width: 575,
+    editable: false,
+  }
+
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+
+
+let userData;
 
 export const UserScreen = () => {
-    return (
-        <div style={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
-    )
+
+
+  const [editRowsModel, setEditRowsModel] = React.useState({});
+
+  const [rows, setRows] = React.useState([])
+
+  const [edit, setEdit] = React.useState("false")
+
+
+  const handleEditRowsModelChange = React.useCallback((model) => {
+    setEditRowsModel(model);
+  }, []);
+
+  const baseURL = "/updateInfo"
+
+  const submit = (e) => {
+    e.preventDefault();
+  
+    let course
+    if (editRowsModel[userData[0].id].course.value)
+      course = editRowsModel[userData[0].id].course.value
+    else
+      course = userData[0].course
+
+    let perTen
+    if (editRowsModel[userData[0].id].perTen.value)
+      perTen = editRowsModel[userData[0].id].perTen.value
+    else
+      perTen = userData[0].perTen
+
+    let perTwelve
+    if (editRowsModel[userData[0].id].perTwelve.value)
+      perTwelve = editRowsModel[userData[0].id].perTwelve.value
+    else
+      perTwelve = userData[0].perTwelve
+
+    let jeeMarks
+    if (editRowsModel[userData[0].id].jeeMarks.value)
+      jeeMarks = editRowsModel[userData[0].id].jeeMarks.value
+    else
+      jeeMarks = userData[0].jeeMarks
+
+
+
+
+    let student = {
+      "id": userData[0].id,
+      "user": userData[0].user,
+      "course": course,
+      "perTen": perTen,
+      "perTwelve": perTwelve,
+      "jeeMarks": jeeMarks,
+      "appStatus": userData[0].appStatus,
+      "appComment": userData[0].appComment,
+      "userName": userData[0].userName
+    }
+
+
+    axios
+      .put(baseURL, student)
+      .then((response) => {
+      });
+  }
+
+  
+
+  React.useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("user"))
+
+    axios.get('/getStudentDetail?id=' + user.id)
+  .then(res => {
+    setRows(res.data);
+    userData = res.data;
+    if(res.data[0].appStatus === "SUBMITED"){
+      setEdit("true")
+    }
+  })
+  }, [])
+
+  return (
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+        disableSelectionOnClick
+        editRowsModel={editRowsModel}
+        editMode="row"
+        onEditRowsModelChange={handleEditRowsModelChange}
+      />
+      <br />
+      {
+        edit === "true" ?
+      <button
+        className="btn btn-primary"
+        onClick={submit}
+      >
+        Save
+      </button> : ""
+      }
+    </div>
+  )
 }

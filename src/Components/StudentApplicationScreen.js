@@ -1,30 +1,57 @@
 import React from 'react'
 import { useState } from 'react';
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+
 
 export const StudentApplicationScreen = () => {
 
 
     const [jeemarks, setJee] = useState("")
-    const [course, setCourse] = useState("")
+    const [course, setCourse] = useState("Computer Science")
     const [perten, setTen] = useState("")
     const [pertwelve, setTwelve] = useState("")
 
+    const history = useHistory();
+
+    const baseURL = "/saveInfo";
+
+    let user = JSON.parse(localStorage.getItem("user"))
+
     const submit = (e) => {
         e.preventDefault();
-        if (!jeemarks || !course || !perten || !pertwelve) {
+        if (!course && !jeemarks && !pertwelve && !perten) {
             alert("Info required")
         }
         else {
-            //props.addUser(email, password,firstName,lastName);
+
+            axios.post(baseURL, { 
+                user: user.id  ,
+                course: course,
+                perTen: perten,
+                perTwelve: pertwelve,
+                jeeMarks: jeemarks,
+                appStatus:"Submitted",
+                appComment:"",
+                userName: user.firstName +" " + user.lastName
+             })
+            .then(res => {
+                history.push("/studentStatus")
+            })
         }
     }
+
+    function handleDropdownChange(e) {
+        setCourse(e.target.value )
+      }
+
     return (
         <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         <form onSubmit={submit}>
             <div className="form-group text-left">
             <label htmlFor="course">Course</label>
-            <select 
-        onChange={(e) => setCourse(e.target.value)}
+            <select name='course'
+        onChange={handleDropdownChange}
       >
        <option value="Computer Science">Computer Science</option>
         <option value="Information Technology">Information Technology</option>
